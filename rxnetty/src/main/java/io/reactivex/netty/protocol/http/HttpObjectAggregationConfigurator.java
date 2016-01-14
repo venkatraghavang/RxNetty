@@ -20,6 +20,7 @@ import io.netty.handler.codec.http.FullHttpMessage;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.reactivex.netty.pipeline.PipelineConfigurator;
 
+
 /**
  * An implementation of {@link PipelineConfigurator} that can be applied with an implementation of
  * {@link AbstractHttpConfigurator} so that instead of multiple events per Http request/response, they are aggregated
@@ -33,7 +34,10 @@ public class HttpObjectAggregationConfigurator<R extends FullHttpMessage, W> imp
 
     public static final String AGGREGATOR_HANDLER_NAME = "http-aggregator";
 
-    public static final int DEFAULT_CHUNK_SIZE = 52428800; // 1 MB
+	// This variable name is misleading.
+	// This is actually the content length of all the chunks and not the chunk
+	// size.
+	public static final int DEFAULT_CHUNK_SIZE = Integer.getInteger("rxnetty.http.maxcontentlength", 52428800); // 50MB
 
     private final int maxChunkSize;
 
